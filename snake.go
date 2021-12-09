@@ -39,15 +39,18 @@ type GameState struct {
 
 
 func main() {
+
 	state := InitializeState()
 	DisplayState(state)
 	move := RequireMove()
+
 	for {
 		if ok := UpdateState(&state, move); !ok {
 			DisplayState(state)
 			fmt.Printf("GAME OVER! Final Score: %d\n", state.Score)
 			return 
 		}
+
 		DisplayState(state)
 		move = RequireMove()
 	}
@@ -57,13 +60,16 @@ func main() {
 // or inputs nothing to keep going in current direction
 // returns "W" "A" "S" "D" or ""
 func RequireMove() string {
+
 	fmt.Printf("Input direction and hit enter: ")
 	input := bufio.NewScanner(os.Stdin)
 	input.Scan()
 	user_choice := strings.ToUpper(input.Text())
+
 	if user_choice == "W" || user_choice == "S" || user_choice == "A" || user_choice == "D" {
 		return user_choice
 	}
+
 	return ""
 }
 
@@ -226,8 +232,10 @@ func DisplayState(state GameState) {
 // returns a random food location
 func GetNewFoodLoc(state *GameState) bool {
 	h, w := state.BoardDimension[0], state.BoardDimension[1]
+
 	for count := 0; count < 10*h*w; count++{
 		y, x := rand.Intn(h), rand.Intn(w)
+		
 		if state.Board[y][x] == Empty {
 			state.Food = Coordinate{y, x}
 			state.Board[y][x] = Food
